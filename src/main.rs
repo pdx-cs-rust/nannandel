@@ -1,13 +1,25 @@
 use nannou::prelude::*;
+use nannou::image::{DynamicImage, ImageBuffer, Rgba};
 
 struct Model {
     texture: wgpu::Texture,
 }
 
 fn model(app: &App) -> Model {
-    let assets = app.assets_path().unwrap();
-    let img_path = assets.join("nature_1.jpg");
-    let texture = wgpu::Texture::from_path(app, img_path).unwrap();
+    let window = app.main_window();
+    let (w, h) = window.rect().w_h();
+
+    let img = ImageBuffer::from_fn(w.floor() as u32, h.floor() as u32, |x, y| {
+        Rgba([
+            ((x * y) % 256) as u8,
+            (x % 256) as u8,
+            (y % 256) as u8,
+            255,
+        ])
+    });
+
+    let dynamic_img = DynamicImage::ImageRgba8(img);
+    let texture = wgpu::Texture::from_image(app, &dynamic_img);
     Model { texture }
 }
 
