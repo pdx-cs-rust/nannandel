@@ -23,8 +23,6 @@ fn model(app: &App) -> Model {
     Model { texture }
 }
 
-fn update(_app: &App, _model: &mut Model, _update: Update) {}
-
 fn view(app: &App, model: &Model, frame: Frame) {
     frame.clear(BLACK);
 
@@ -45,7 +43,6 @@ fn view(app: &App, model: &Model, frame: Frame) {
 
 fn main() {
     nannou::app(model)
-        //        .update(update)
         .simple_window(view)
         .run();
 }
